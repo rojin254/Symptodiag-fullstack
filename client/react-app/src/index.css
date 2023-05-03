@@ -1,0 +1,11 @@
+.a-white{
+  color: white !important;
+}
+.input-group{
+  width: 20% !important;
+}
+.btn-link-white{
+  color: white;
+  text-decoration: none;
+  all:inherit;
+}
