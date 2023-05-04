@@ -3,7 +3,7 @@ import ButtonGroup from "../components/ButtonGroup";
 import DropButton from "../components/DropButton";
 import ListGroup from "../components/ListGroup";
 import { useState, useEffect } from "react";
-//import axios from "axios";
+import axios from "axios";
 
 /*interface UserData {
     userid: string;
@@ -16,28 +16,39 @@ interface Props {
   setState: (e: any) => void;
 }
 
-function Symptoms({  setState }: Props) {
+interface Disease {
+  disease_name: string;
+  symptoms: string;
+  tests:string;
+  remedies: string;
+}
+
+function Symptoms({ setState }: Props) {
   const [listOfData, setListOfData] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   useEffect(() => {
-   // axios.get("http://localhost:3002/userdetails").then((response) => {
-      setListOfData(["headache", "fever", "neckpain"]);
-   // });
+    axios.get<Disease[]>("http://localhost:3002/diseases").then((response) => {
+      const allSymptoms = response.data.reduce((acc, disease) => {
+        const diseaseSymptoms = disease.symptoms.split(' ');
+        return [...acc, ...diseaseSymptoms];
+      }, [] as string[]);
+    const uniqueSymptoms=[...new Set(allSymptoms)]
+    console.log( uniqueSymptoms)
+
+      setListOfData(uniqueSymptoms);
+    });
   }, []);
 
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const handleSelectionChange = (selectedOptions: string[]) => {
     setSelectedOptions(selectedOptions);
   };
-  //console.log(listOfData[0][1])
-  // const options = listOfData.map((el) => {
-  // return el.userid;
-  //});
+  
 
   const options = listOfData;
   const handleContinue = () => {
-    setState(selectedOptions );
+    setState(selectedOptions);
   };
 
   return (
@@ -65,8 +76,8 @@ function Symptoms({  setState }: Props) {
           text="back"
           link="../Details"
           onSubmit={() => {
-            ()=>{
-              setState([])
+            () => {
+              setState([]);
             };
           }}
         ></ButtonGroup>

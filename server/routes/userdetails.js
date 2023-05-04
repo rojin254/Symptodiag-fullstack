@@ -3,13 +3,14 @@ const router = express.Router();
 const { User } = require("../models");
 console.log(User)
 router.get("/", async (req, res) => {
-  const listOfPosts = await User.findAll();
-  res.json(listOfPosts);
+  const listOfUsers = await User.findAll();
+  res.json(listOfUsers);
 });
 
 router.post("/", async (req, res) => {
   const post = req.body;
-  await User.create(post);
+  console.log(post.users[0])
+  await User.create(post.users[0]);
   res.json(post);
 });
 

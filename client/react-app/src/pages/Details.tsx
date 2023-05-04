@@ -48,7 +48,7 @@ function Details({  setState }: Props) {
         ></ButtonGroup>
         <ButtonGroup
           text="back"
-          link="#"
+          link="/"
           onSubmit={() => {
             setState('','');
           }}

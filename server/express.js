@@ -6,7 +6,10 @@ app.use(cors());
 const db = require("./models");
 
 const userdetailsRouter=require('./routes/userdetails')
+const diseases=require('./routes/Diseases')
 app.use("/userdetails",userdetailsRouter);
+
+app.use('/diseases',diseases);
 
 
 db.sequelize.sync().then(() => {

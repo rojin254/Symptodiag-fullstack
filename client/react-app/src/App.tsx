@@ -1,28 +1,38 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Symptoms from "./pages/symptoms";
 import Details from "./pages/Details";
+import UserLogin from "./pages/UserLogin";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 interface User {
+  userid:string;
+  username:string;
   age: string;
   gender: string;
-  symptoms: string[];
+  symptoms: string;
 }
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [userdata, setUserData] = useState<User>({
+    userid:"are",
+    username:"",
     age: "",
     gender: "",
-    symptoms: [],
+    symptoms: '',
   });
 
+  const handleUserIdChange=(userid:string,username:string)=>{
+    setUserData({...userdata,userid:userid,username:username})
+    console.log(userdata,userid,'here')
+  }
   const handleAgeGenderChange = (age: string, gender: string) => {
     setUserData({ ...userdata, age: age, gender: gender });
   };
 
   const handleSymptomsChange = (symptoms: string[]) => {
-    setUserData({ ...userdata, symptoms: symptoms });
+    setUserData({ ...userdata, symptoms: symptoms.join(' ') });
   };
 
   useEffect(() => {
@@ -32,16 +42,26 @@ function App() {
       userdata.symptoms.length > 0
     ) {
       setUsers((currentUsers) => [...currentUsers, userdata]);
+      console.log(2)
     }
   }, [userdata]);
 
   useEffect(() => {
-    console.log(users);
+    if(users.length>0){
+
+      axios.post('http://localhost:3002/userdetails',{users})
+      console.log({users})
+    }
+    console.log(users)
   }, [users]);
 
   return (
     <Router>
       <Routes>
+        <Route path="/" element={
+          <UserLogin state={userdata}  setState={handleUserIdChange}/>
+        
+        }/>
         <Route
           path="/Details"
           element={
