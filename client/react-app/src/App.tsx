@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Symptoms from "./pages/symptoms";
 import Details from "./pages/Details";
+import Result from "./pages/Result";
 import UserLogin from "./pages/UserLogin";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -55,6 +56,11 @@ function App() {
     console.log(users)
   }, [users]);
 
+  const resultState= {about:"adsjadkasd",
+  tests:"ajdsksadnkans",
+  remedies:"aiusdhsadjj"}
+
+
   return (
     <Router>
       <Routes>
@@ -75,15 +81,15 @@ function App() {
             <Symptoms state={userdata} setState={handleSymptomsChange} />
           }
         ></Route>
+        <Route
+          path="/Result"
+          element={
+            <Result result={resultState}/>
+          }
+        ></Route>
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
-//useEffect(() => {
-//if (userdata.age!='' && userdata.gender!='') {
-//setUsers((currentUsers) => [...currentUsers, userdata]);
-//}
-//}, [userdata]);
