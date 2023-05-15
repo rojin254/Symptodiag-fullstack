@@ -4,6 +4,7 @@ import Details from "./pages/Details";
 import UserLogin from "./pages/UserLogin";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Result from "./pages/Result";
 
 interface User {
   userid:string;
@@ -54,7 +55,11 @@ function App() {
     }
     console.log(users)
   }, [users]);
-
+const resultState={
+  about:"nf,kjfh",
+      tests:"...,mfnfj",
+      remedies:"ljhluf.f"
+}
   return (
     <Router>
       <Routes>
@@ -75,6 +80,13 @@ function App() {
             <Symptoms state={userdata} setState={handleSymptomsChange} />
           }
         ></Route>
+        <Route
+          path="/Result"
+          element={
+            <Result result={resultState}/>
+            
+          }>
+          </Route>
       </Routes>
     </Router>
   );
